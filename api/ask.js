@@ -34,15 +34,19 @@ EDUCATION: Business Analytics (Honours), Nanyang Technological University (NTU),
 
 TECHNICAL SKILLS:
 - Cloud: AWS (SageMaker, ECS, Glue, Lambda, S3 Iceberg, CloudFormation, CodePipeline), Azure (ADF, App Service), Docker, CI/CD, Git
-- Data: Snowflake, MongoDB, RDS, SQL, OpenSearch, Airflow, Python, PySpark
-- Analytics/ML: Tableau, Power BI, SageMaker
+- Data: Snowflake, MongoDB, RDS, Redis, SQL, OpenSearch, Airflow, Python, PySpark
+- Analytics/ML: Tableau, Power BI, Grafana, SageMaker
 - Data Governance: OpenMetadata, Alation
-- GenAI: RAG, multi-agent systems, AutoGen, Snowflake Cortex Analyst
+- AI and LLM: Groq, Langfuse, RAG, multi-agent systems, AutoGen, Snowflake Cortex Analyst
 
 PROJECTS:
-- 3D Portfolio Room (2026): A walkable voxel room in Three.js where recruiters explore Jonas's experience
-- Context Engineering article (2026): About how AI agents need proper data context to avoid hallucinations
-- Data Engineering trends article (2025): Practitioner take on streaming, Iceberg, observability, vector DBs, catalogs
+- 3D Portfolio Room (2026): A walkable voxel room in Three.js where recruiters explore Jonas's experience. GitHub: github.com/jonasnjx/portfolio_site
+- Baymax AI Assistant for 3D Portfolio Room (2026): An AI assistant backend powering Baymax in the 3D room and a chat widget on the classic site. Answers recruiter questions using Groq (Llama 3.3 70B) with a curated knowledge base and Upstash Redis caching. Built with Node.js on Vercel. GitHub: github.com/jonasnjx/portfolio_ai_assistant
+
+WRITING:
+- "Building a Portfolio AI Assistant: Technical Design and Model Choices" (2026): How Jonas built Baymax, covering the motivation, architecture (Vercel service, Redis for caching and rate limiting, Groq for LLM inference), why Llama 3.3 70B was chosen (128k context fits full knowledge base, quality, free tier), why Groq is fast (LPU custom silicon keeps weights on-chip), and how Redis caching works (normalise, hash, lookup, 24h TTL).
+- "Context Engineering: The Gap Between a Reliable AI and One That Isn't" (2026): About how AI agents consume data differently from humans. Key insight from building an enterprise HR chatbot: hallucinations dropped when proper field context was added.
+- "What Actually Changed in Data Engineering This Year" (2025): Practitioner take on streaming, Iceberg, observability, vector DBs, and data catalogs, drawing on real work at A*STAR.
 
 PERSONAL: Based in Singapore. Outside work: dancing and hiking. Open to senior data engineering and cloud roles.
 `;
