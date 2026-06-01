@@ -1,0 +1,14 @@
+{
+  "name": "portfolio-ai-assistant",
+  "version": "1.0.0",
+  "description": "AI assistant backend for Jonas Ng's portfolio",
+  "main": "api/ask.js",
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "dependencies": {
+    "groq-sdk": "^0.9.0",
+    "@upstash/redis": "^1.34.0",
+    "@upstash/ratelimit": "^2.0.0"
+  }
+}
