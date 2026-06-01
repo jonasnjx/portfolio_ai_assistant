@@ -57,21 +57,26 @@ Business Analytics (Honours), Nanyang Technological University (NTU), Singapore
 ## Technical Skills
 
 - Cloud and Infrastructure: AWS (SageMaker, ECS, Glue, Lambda, S3 Iceberg, CloudFormation, CodePipeline), Azure (ADF, App Service), Docker, ECS, CI/CD, Git
-- Data and Databases: Snowflake, MongoDB, RDS, SQL, OpenSearch, Airflow, Python, PySpark
-- Analytics and ML: Tableau, Power BI, SageMaker
+- Data and Databases: Snowflake, MongoDB, RDS, Redis, SQL, OpenSearch, Airflow, Python, PySpark
+- Analytics and ML: Tableau, Power BI, Grafana, SageMaker
 - Data Governance: OpenMetadata, Alation
-- GenAI: RAG, multi-agent systems, AutoGen, Snowflake Cortex Analyst
+- AI and LLM: Groq, Langfuse, RAG, multi-agent systems, AutoGen, Snowflake Cortex Analyst
 
 ## Projects
 
 ### 3D Portfolio Room (2026)
-A walkable voxel room built in Three.js with third-person controls, pixel art, interactive objects, roaming pets, and a Street Fighter arcade machine. The portfolio site itself is a desktop-only interactive game where recruiters can explore Jonas's experience. Built using Three.js, plain HTML, Express, and deployed on Vercel. No bundler.
+A walkable voxel room built in Three.js with third-person controls, pixel art, interactive objects, roaming pets, and a Street Fighter arcade machine. The portfolio site itself is a desktop-only interactive game where recruiters can explore Jonas's experience. Built using Three.js, plain HTML, Express, and deployed on Vercel. No bundler. GitHub: github.com/jonasnjx/portfolio_site
+
+### Baymax AI Assistant for 3D Portfolio Room (2026)
+An AI assistant backend that powers Baymax, a virtual assistant in the 3D portfolio room, and a chat widget on the classic site. Answers recruiter questions about Jonas's background using Groq (Llama 3.3 70B) with a curated knowledge base and Upstash Redis caching. Built with Node.js, deployed as a separate Vercel service. Uses per-IP rate limiting and 24-hour response caching. GitHub: github.com/jonasnjx/portfolio_ai_assistant
 
 ### Writing and Articles
 
-Jonas has written about context engineering and data engineering trends:
+Jonas has written about AI, data engineering, and system design:
 
-- "Context Engineering: The Gap Between a Reliable AI and One That Isn't" (2026): An article about how AI agents consume data differently from humans. The key insight: when Jonas was building an enterprise HR chatbot, it kept hallucinating because there were multiple date fields and the model had no idea which applied to which context. When proper context was added (clear descriptions of what each field meant), hallucinations dropped noticeably. Context engineering is everything an agent needs beyond its training: data, semantics, memory, tools, and guardrails.
+- "Building a Portfolio AI Assistant: Technical Design and Model Choices" (2026): How Jonas built Baymax, covering the motivation (scattered portfolio information), the technical architecture (Vercel service, Upstash Redis for caching and rate limiting, Groq for LLM inference), why Llama 3.3 70B was chosen (128k context fits the full knowledge base, 70B for quality, free tier), why Groq is fast (LPU custom silicon keeps model weights on-chip), and how Redis caching works (normalise, hash, lookup, store with 24h TTL).
+
+- "Context Engineering: The Gap Between a Reliable AI and One That Isn't" (2026): An article about how AI agents consume data differently from humans. The key insight: when Jonas was building an enterprise HR chatbot, it kept hallucinating because there were multiple date fields and the model had no idea which applied to which context. When proper context was added, hallucinations dropped noticeably. Context engineering is everything an agent needs beyond its training: data, semantics, memory, tools, and guardrails.
 
 - "What Actually Changed in Data Engineering This Year" (2025): A practitioner's take on the six shifts that mattered in data and AI engineering in 2025, including streaming-first ingestion, open table formats (Iceberg), orchestration, observability, vector databases, and data catalogs. Jonas draws on his real work at A*STAR (Alation catalog across 13 system owners, RAG on Neo4j, multi-agent chatbot on Snowflake Cortex).
 
