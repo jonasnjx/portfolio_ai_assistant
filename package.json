@@ -2,8 +2,6 @@
   "name": "portfolio_ai_assistant",
   "version": "1.0.0",
   "description": "AI assistant backend for Jonas Ng's portfolio",
-  "main": "api/ask.js",
-  "type": "module",
   "scripts": {
     "dev": "vercel dev"
   },
