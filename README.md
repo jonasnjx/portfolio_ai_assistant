@@ -1,16 +1,61 @@
 # portfolio_ai_assistant
 
-AI assistant backend for my portfolio. Powers the robot receptionist NPC in the 3D portfolio room.
+AI assistant backend for my portfolio. Powers the Baymax assistant in the 3D portfolio room and the chat widget on the classic site.
 
-## What it does
+## Architecture
 
-Answers recruiter questions about my background, experience, and projects using Groq (Llama 3.3 70B) with a curated knowledge base. Responses are cached in Upstash Redis for instant repeat answers.
+```
+                        portfolio site / 3D room
+                                  |
+                          POST /ask  {question}
+                                  |
+                         ┌────────▼────────┐
+                         │   /ask endpoint  │
+                         │   (Vercel fn)    │
+                         └────────┬────────┘
+                                  │
+                    ┌─────────────▼─────────────┐
+                    │   Rate limit check         │
+                    │   Upstash Redis            │
+                    │   20 req / min / IP        │
+                    └──────┬──────────┬──────────┘
+                     429   │          │ OK
+                    error  │          │
+                           │    ┌─────▼──────────────┐
+                           │    │  Cache lookup        │
+                           │    │  Upstash Redis       │
+                           │    │  key: SHA256(question)│
+                           │    └──┬──────────────┬───┘
+                           │  MISS │              │ HIT
+                           │       │              │
+                    ┌──────▼───────▼─┐     ┌──────▼──────────┐
+                    │   Groq API     │     │  Return cached   │
+                    │ Llama 3.3 70B  │     │  answer          │
+                    │ + knowledge.md │     │  cache: "HIT"    │
+                    │   as context   │     └─────────────────┘
+                    └───────┬────────┘
+                            │
+                    ┌───────▼────────┐
+                    │  Store answer  │
+                    │  in Redis      │
+                    │  TTL: 24h      │
+                    └───────┬────────┘
+                            │
+                    ┌───────▼────────┐
+                    │ Return answer  │
+                    │ cache: "MISS"  │
+                    └────────────────┘
+
+
+GET /health  →  { status: "ok" }
+```
 
 ## Stack
 
-- Groq API (llama-3.3-70b-versatile) for LLM inference
-- Upstash Redis for response caching and rate limiting
-- Vercel serverless functions for hosting
+- **Groq API** (llama-3.3-70b-versatile): LLM inference, fast and free tier
+- **Upstash Redis**: response caching (24h TTL) + per-IP rate limiting
+- **Vercel serverless functions**: hosting, zero config
+- **knowledge.md**: curated context about Jonas, stuffed into every prompt
 
 ## Endpoints
 
@@ -34,13 +79,12 @@ UPSTASH_REDIS_REST_URL=
 UPSTASH_REDIS_REST_TOKEN=
 ```
 
-Get keys from:
 - Groq: https://console.groq.com
-- Upstash: https://console.upstash.com (create a Redis database)
+- Upstash: https://console.upstash.com
 
 ## Knowledge base
 
-Edit `knowledge.md` to update what the assistant knows. Keep it factual and in sync with the portfolio site.
+Edit `knowledge.md` to update what the assistant knows. Keep it in sync with the portfolio site. No redeploy needed for content changes if you switch to fetching it dynamically.
 
 ## Deployment
 
@@ -48,4 +92,4 @@ Edit `knowledge.md` to update what the assistant knows. Keep it factual and in s
 vercel --prod
 ```
 
-Set the three environment variables in the Vercel project settings before deploying.
+Set the three environment variables in Vercel project settings before deploying.
