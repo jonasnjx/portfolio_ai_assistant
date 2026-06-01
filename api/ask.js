@@ -42,11 +42,12 @@ TECHNICAL SKILLS:
 PROJECTS:
 - 3D Portfolio Room (2026): A walkable voxel room in Three.js where recruiters explore Jonas's experience. GitHub: github.com/jonasnjx/portfolio_site
 - Baymax AI Assistant for 3D Portfolio Room (2026): An AI assistant backend powering Baymax in the 3D room and a chat widget on the classic site. Answers recruiter questions using Groq (Llama 3.3 70B) with a curated knowledge base and Upstash Redis caching. Built with Node.js on Vercel. GitHub: github.com/jonasnjx/portfolio_ai_assistant
+- Portfolio Analytics (2026): A modular event pipeline tracking visitor interactions across the 3D room and classic site. Events are sent via Upstash QStash, aggregated into Redis counters, and displayed on a live public dashboard. Built with Node.js, QStash, Redis, and Chart.js. GitHub: github.com/jonasnjx/portfolio_analytics
 
 WRITING:
+- "How I Built the Portfolio Site Analytics using a Modular Event Pipeline" (2026): How Jonas built a separate analytics service. Covers the modular design approach (separate repos), the three API endpoints (/track, /consume, /stats), why QStash is used instead of Kafka (serverless compatibility, HTTP-based), and the limitations of HTTP vs persistent connections at scale.
 - "Building a Portfolio AI Assistant: Technical Design and Model Choices" (2026): How Jonas built Baymax, covering the motivation, architecture (Vercel service, Redis for caching and rate limiting, Groq for LLM inference), why Llama 3.3 70B was chosen (128k context fits full knowledge base, quality, free tier), why Groq is fast (LPU custom silicon keeps weights on-chip), and how Redis caching works (normalise, hash, lookup, 24h TTL).
 - "Context Engineering: The Gap Between a Reliable AI and One That Isn't" (2026): About how AI agents consume data differently from humans. Key insight from building an enterprise HR chatbot: hallucinations dropped when proper field context was added.
-- "What Actually Changed in Data Engineering This Year" (2025): Practitioner take on streaming, Iceberg, observability, vector DBs, and data catalogs, drawing on real work at A*STAR.
 
 PERSONAL: Based in Singapore. Outside work: dancing and hiking. Open to senior data engineering and cloud roles.
 `;
