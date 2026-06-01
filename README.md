@@ -1,10 +1,10 @@
-# portfolio-ai-assistant
+# portfolio_ai_assistant
 
-AI assistant backend for Jonas Ng's portfolio. Powers the robot receptionist NPC in the 3D portfolio room.
+AI assistant backend for my portfolio. Powers the robot receptionist NPC in the 3D portfolio room.
 
 ## What it does
 
-Answers recruiter questions about Jonas's background, experience, and projects using Groq (Llama 3.3 70B) with a curated knowledge base. Responses are cached in Upstash Redis for instant repeat answers.
+Answers recruiter questions about my background, experience, and projects using Groq (Llama 3.3 70B) with a curated knowledge base. Responses are cached in Upstash Redis for instant repeat answers.
 
 ## Stack
 
@@ -40,7 +40,7 @@ Get keys from:
 
 ## Knowledge base
 
-Edit `knowledge.md` to update what the assistant knows about Jonas. Keep it factual and in sync with the portfolio site.
+Edit `knowledge.md` to update what the assistant knows. Keep it factual and in sync with the portfolio site.
 
 ## Deployment
 
