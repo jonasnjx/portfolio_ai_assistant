@@ -5,49 +5,50 @@ AI assistant backend for my portfolio. Powers the Baymax assistant in the 3D por
 ## Architecture
 
 ```
-                        portfolio site / 3D room
-                                  |
-                          POST /ask  {question}
-                                  |
-                         ┌────────▼────────┐
-                         │   /ask endpoint  │
-                         │   (Vercel fn)    │
-                         └────────┬────────┘
-                                  │
-                    ┌─────────────▼─────────────┐
-                    │   Rate limit check         │
-                    │   Upstash Redis            │
-                    │   20 req / min / IP        │
-                    └──────┬──────────┬──────────┘
-                     429   │          │ OK
-                    error  │          │
-                           │    ┌─────▼──────────────┐
-                           │    │  Cache lookup        │
-                           │    │  Upstash Redis       │
-                           │    │  key: SHA256(question)│
-                           │    └──┬──────────────┬───┘
-                           │  MISS │              │ HIT
-                           │       │              │
-                    ┌──────▼───────▼─┐     ┌──────▼──────────┐
-                    │   Groq API     │     │  Return cached   │
-                    │ Llama 3.3 70B  │     │  answer          │
-                    │ + knowledge.md │     │  cache: "HIT"    │
-                    │   as context   │     └─────────────────┘
-                    └───────┬────────┘
-                            │
-                    ┌───────▼────────┐
-                    │  Store answer  │
-                    │  in Redis      │
-                    │  TTL: 24h      │
-                    └───────┬────────┘
-                            │
-                    ┌───────▼────────┐
-                    │ Return answer  │
-                    │ cache: "MISS"  │
-                    └────────────────┘
+  Portfolio site / 3D room
+           |
+   POST /ask  {question}
+           |
+  ┌────────▼────────┐
+  │  /ask endpoint  │
+  │  (Vercel fn)    │
+  └────────┬────────┘
+           │
+  ┌────────▼────────────────┐
+  │  Rate limit check        │
+  │  Upstash Redis           │
+  │  20 req / min / IP       │
+  └───┬─────────────────┬───┘
+      │ 429             │ OK
+      ▼                 │
+  Return error          │
+  to client             │
+                ┌───────▼──────────────┐
+                │  Cache lookup         │
+                │  Upstash Redis        │
+                │  key: SHA256(question)│
+                └──────┬──────────┬────┘
+                  MISS │          │ HIT
+                       │          ▼
+                       │    Return cached answer
+                       │    { cache: "HIT" }
+                       │
+               ┌───────▼──────────┐
+               │  Groq API         │
+               │  Llama 3.3 70B    │
+               │  + knowledge.md   │
+               └───────┬──────────┘
+                       │
+               ┌───────▼──────────┐
+               │  Store in Redis   │
+               │  TTL: 24h         │
+               └───────┬──────────┘
+                       │
+               Return answer to client
+               { cache: "MISS" }
 
 
-GET /health  →  { status: "ok" }
+  GET /health  →  { status: "ok" }
 ```
 
 ## Stack
@@ -84,7 +85,7 @@ UPSTASH_REDIS_REST_TOKEN=
 
 ## Knowledge base
 
-Edit `knowledge.md` to update what the assistant knows. Keep it in sync with the portfolio site. No redeploy needed for content changes if you switch to fetching it dynamically.
+Edit `knowledge.md` to update what the assistant knows. Keep it in sync with the portfolio site.
 
 ## Deployment
 
