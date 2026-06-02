@@ -83,6 +83,8 @@ Jonas has written about AI, data engineering, and system design:
 
 - "Context Engineering: The Gap Between a Reliable AI and One That Isn't" (2026): An article about how AI agents consume data differently from humans. The key insight: when Jonas was building an enterprise HR chatbot, it kept hallucinating because there were multiple date fields and the model had no idea which applied to which context. When proper context was added, hallucinations dropped noticeably.
 
+- "I Delivered Enterprise Data Catalogs End-to-End. Here Is What I Learned." (2026): Lessons from leading two end-to-end data catalog implementations. First: Alation (SaaS) at a government research agency, connecting 13 systems (on-prem RDS, AWS RDS, Snowflake). Main challenges were getting system owner approvals (top-down approval from directors was faster than bottom-up), and briefing cloud security teams with architecture diagrams and answers to security questions. Second: OpenMetadata (open-source) deployed on ECS at current company, covering 5 AWS accounts and 8000+ assets. Challenges included OpenSearch version compatibility (had to downgrade from latest), and managing Airflow ingestion scripts (one per resource type per account). Key learnings: adoption is the hardest part, top-down mandate beats bottom-up, technical catalogs (Glue, Snowflake Horizon) suit AI/ML pipelines, business-facing catalogs (Alation, OpenMetadata, DataHub) suit enterprise data platforms with SSO and governance workflows. Covers data lineage (bronze to silver to gold, transformation queries), and data contracts (schema enforcement to prevent silent downstream breakage).
+
 ## Personal
 
 - Based in Singapore
