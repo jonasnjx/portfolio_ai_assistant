@@ -1,0 +1,18 @@
+{
+  "runs": [
+    {
+      "runId": "2026-06-07T16-03-22",
+      "overall": 4.25,
+      "genModel": "llama-3.3-70b-versatile",
+      "judgeModel": "llama-3.1-8b-instant",
+      "critique": false
+    },
+    {
+      "runId": "2026-06-07T14-53-22",
+      "overall": 4.25,
+      "genModel": "llama-3.3-70b-versatile",
+      "judgeModel": "llama-3.1-8b-instant",
+      "critique": false
+    }
+  ]
+}

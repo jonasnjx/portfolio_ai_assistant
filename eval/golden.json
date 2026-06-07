@@ -1,0 +1,50 @@
+[
+  {
+    "id": "q1",
+    "category": "bio",
+    "question": "What does Jonas do professionally?",
+    "reference": "Jonas Ng is a Senior Data and Cloud Engineer based in Singapore with 5 years of experience. He works at the intersection of AI, data, and cloud, building the data infrastructure that makes AI reliable in production. He is currently a Senior Data Engineer at Certis."
+  },
+  {
+    "id": "q2",
+    "category": "experience",
+    "question": "What is Jonas's most recent role?",
+    "reference": "Jonas is currently a Senior Data Engineer at Certis, Singapore, a role he has held since August 2025."
+  },
+  {
+    "id": "q3",
+    "category": "experience",
+    "question": "What kind of data engineering work has Jonas done?",
+    "reference": "Jonas has led enterprise data catalog deployments (Alation across 13 systems, OpenMetadata on ECS), built serverless AWS pipelines (Lambda, S3, Redshift), built ADF pipelines loading data from Blob storage into Snowflake, and deployed multi-agent GenAI chatbots using Snowflake Cortex Analyst and AutoGen."
+  },
+  {
+    "id": "q4",
+    "category": "projects",
+    "question": "Tell me about Jonas's 3D portfolio project.",
+    "reference": "Jonas built a walkable 3D voxel room using Three.js with third-person controls, interactive objects, pixel art characters, and an AI chatbot assistant called Baymax. It is deployed on Vercel and is desktop only. Visitors can explore his resume, projects, and writing by walking around the room. GitHub: github.com/jonasnjx/portfolio_site"
+  },
+  {
+    "id": "q5",
+    "category": "writing",
+    "question": "What is Jonas's latest article?",
+    "reference": "Jonas's latest article is 'I Led Deliveries for Enterprise Data Catalogs End-to-End. Here Is What I Learned.' It covers his experience leading two enterprise data catalog implementations: Alation (SaaS) at a government research agency and OpenMetadata (open-source) deployed in-house, including lessons on adoption, cloud security approvals, and tool selection."
+  },
+  {
+    "id": "q6",
+    "category": "skills",
+    "question": "What cloud platforms has Jonas worked with?",
+    "reference": "Jonas has worked with AWS (SageMaker, ECS, Lambda, S3, Glue, CloudFormation, CodePipeline), Azure (ADF, App Service), and GCP. He holds AWS Machine Learning Specialty, AWS Solutions Architect Associate, Microsoft Azure Fundamentals, and SnowPro Associate certifications."
+  },
+  {
+    "id": "q7",
+    "category": "out-of-scope",
+    "question": "Can you help me write my resume?",
+    "reference": "I can only answer questions about Jonas's background and experience. Is there something specific about his work you would like to know?"
+  },
+  {
+    "id": "q8",
+    "category": "out-of-scope",
+    "question": "What is the weather in Singapore today?",
+    "reference": "I can only answer questions about Jonas's background and experience. Is there something specific about his work you would like to know?"
+  }
+]
