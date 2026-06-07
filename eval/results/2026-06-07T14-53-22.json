@@ -2,7 +2,7 @@
   "runId": "2026-06-07T14-53-22",
   "config": "no-critique",
   "genModel": "llama-3.3-70b-versatile",
-  "judgeModel": "gemma2-9b-it",
+  "judgeModel": "llama-3.1-8b-instant",
   "critique": false,
   "aggregate": {
     "accuracy": 3.75,
