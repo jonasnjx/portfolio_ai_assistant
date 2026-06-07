@@ -4,7 +4,7 @@ require('dotenv').config({ path: require('path').join(__dirname, '../.env') });
 
 const fs   = require('fs');
 const path = require('path');
-const { runAgent } = require('./agent');
+const { runAgent } = require('../lib/agent');
 const { judgeAnswer, JUDGE_MODEL } = require('./judge');
 
 const golden = require('./golden.json');
