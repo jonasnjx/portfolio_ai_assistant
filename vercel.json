@@ -1,4 +1,7 @@
 {
+  "functions": {
+    "api/ask.js": { "maxDuration": 30 }
+  },
   "rewrites": [
     { "source": "/ask", "destination": "/api/ask" },
     { "source": "/health", "destination": "/api/health" }
