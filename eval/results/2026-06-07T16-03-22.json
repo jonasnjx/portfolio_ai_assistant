@@ -2,6 +2,7 @@
   "runId": "2026-06-07T16-03-22",
   "config": "no-critique",
   "genModel": "llama-3.3-70b-versatile",
+  "judgeModel": "llama-3.1-8b-instant",
   "critique": false,
   "aggregate": {
     "accuracy": 3.88,
