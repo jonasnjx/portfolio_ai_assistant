@@ -7,6 +7,9 @@
     "eval": "node eval/run.js",
     "compare": "node eval/compare.js"
   },
+  "engines": {
+    "node": "22.x"
+  },
   "dependencies": {
     "@langchain/core": "^1.1.48",
     "@langchain/groq": "^1.2.1",
