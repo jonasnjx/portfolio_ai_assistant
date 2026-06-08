@@ -24,6 +24,30 @@ function hashQuestion(q) {
         .slice(0, 32);
 }
 
+// Short-circuit greetings and pleasantries so they never reach the LLM.
+// Only fires when the whole message is a greeting, so "hi, what does Jonas do"
+// still goes to the agent.
+const GREETINGS = new Set([
+    'hi', 'hii', 'hiya', 'hello', 'helo', 'hey', 'heyy', 'yo', 'sup', 'howdy',
+    'good morning', 'good afternoon', 'good evening', 'morning', 'gm',
+    'hi there', 'hello there', 'hey there', 'greetings',
+]);
+const THANKS = new Set([
+    'thank you', 'thanks', 'thank u', 'thx', 'ty', 'tysm', 'thankyou',
+    'appreciate it', 'much appreciated', 'cheers', 'thanks a lot',
+]);
+const BYES = new Set([
+    'bye', 'goodbye', 'good bye', 'see you', 'see ya', 'cya', 'take care',
+]);
+
+function cannedReply(question) {
+    const q = question.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ').trim();
+    if (GREETINGS.has(q)) return "Hi! Ask me anything about Jonas's background, experience, or projects.";
+    if (THANKS.has(q))    return "You're welcome! Anything else you'd like to know about Jonas?";
+    if (BYES.has(q))      return "Thanks for stopping by. Feel free to reach out to Jonas on LinkedIn or by email.";
+    return null;
+}
+
 module.exports = async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -45,6 +69,10 @@ module.exports = async function handler(req, res) {
     if (question.length > 300) {
         return res.status(400).json({ error: 'Question too long. Keep it under 300 characters.' });
     }
+
+    // Greetings and pleasantries get an instant canned reply, no LLM call.
+    const canned = cannedReply(question);
+    if (canned) return res.status(200).json({ answer: canned, cache: 'SKIP' });
 
     const cacheKey = `assistant:${CACHE_VERSION}:${hashQuestion(question)}`;
 
