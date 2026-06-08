@@ -90,12 +90,16 @@ module.exports = async function handler(req, res) {
     }
 
     try {
-        const answer = (await runAgent(question.trim()))
-            || 'Sorry, I could not generate a response.';
+        const generated = await runAgent(question.trim());
 
-        try { await redis.set(cacheKey, answer, { ex: 86400 }); } catch (e) {}
-        try { await setCached(question.trim(), answer); } catch (e) {}
+        // Only cache real answers, never the fallback, so a transient empty
+        // response does not get served from cache for the next 24h / 7d.
+        if (generated) {
+            try { await redis.set(cacheKey, generated, { ex: 86400 }); } catch (e) {}
+            try { await setCached(question.trim(), generated); } catch (e) {}
+        }
 
+        const answer = generated || 'Sorry, I could not generate a response.';
         return res.status(200).json({ answer, cache: 'MISS' });
     } catch (err) {
         console.error('Agent error:', err?.message || err);
