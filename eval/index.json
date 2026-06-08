@@ -1,6 +1,27 @@
 {
   "runs": [
     {
+      "runId": "2026-06-08T15-11-58",
+      "overall": 4.19,
+      "genModel": "llama-3.3-70b-versatile",
+      "judgeModel": "llama-3.1-8b-instant",
+      "critique": true
+    },
+    {
+      "runId": "2026-06-08T14-57-43",
+      "overall": 3.45,
+      "genModel": "llama-3.3-70b-versatile",
+      "judgeModel": "llama-3.1-8b-instant",
+      "critique": true
+    },
+    {
+      "runId": "2026-06-08T14-49-44",
+      "overall": 3.75,
+      "genModel": "llama-3.3-70b-versatile",
+      "judgeModel": "llama-3.1-8b-instant",
+      "critique": true
+    },
+    {
       "runId": "2026-06-07T16-44-06",
       "overall": 4.5,
       "genModel": "llama-3.3-70b-versatile",

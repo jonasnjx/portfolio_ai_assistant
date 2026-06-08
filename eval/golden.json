@@ -46,5 +46,29 @@
     "category": "out-of-scope",
     "question": "What is the weather in Singapore today?",
     "reference": "I can only answer questions about Jonas's background and experience. Is there something specific about his work you would like to know?"
+  },
+  {
+    "id": "q9",
+    "category": "semantic",
+    "question": "What's my latest job?",
+    "reference": "Jonas's latest job is Senior Data Engineer at Certis, Singapore, a role he has held since August 2025."
+  },
+  {
+    "id": "q10",
+    "category": "semantic",
+    "question": "Where does Jonas work right now?",
+    "reference": "Jonas currently works at Certis in Singapore as a Senior Data Engineer, since August 2025."
+  },
+  {
+    "id": "q11",
+    "category": "semantic",
+    "question": "Has Jonas done anything with machine learning models?",
+    "reference": "Yes. Jonas trained a DBSCAN clustering model on SageMaker to flag suspicious traffic at Accenture, and during an internship at Vertex Holdings he trained a LightGBM and ELMo model that reached 86% accuracy on imbalanced data."
+  },
+  {
+    "id": "q12",
+    "category": "semantic",
+    "question": "What has Jonas written about lately?",
+    "reference": "Jonas's most recent article is about leading enterprise data catalog deployments end-to-end, covering Alation (SaaS) and OpenMetadata (open-source), with lessons on adoption, cloud security approvals, and tool selection."
   }
 ]

@@ -2,6 +2,9 @@
   "runs": {
     "2026-06-07T14-53-22": "Baseline run",
     "2026-06-07T16-03-22": "Fixed golden dataset reference answers for q4 and q6",
-    "2026-06-07T16-44-06": "Enabled self-critique loop (check + revise)"
+    "2026-06-07T16-44-06": "Enabled self-critique loop (check + revise)",
+    "2026-06-08T14-49-44": "Expanded golden set to 12 (added semantic-phrasing questions), keyword retrieval",
+    "2026-06-08T14-57-43": "Tested semantic retrieval (Upstash Vector), scored lower: broad chunks dominated, key facts dropped",
+    "2026-06-08T15-11-58": "Switched to full-context retrieval (KB fits in context), best score"
   }
 }

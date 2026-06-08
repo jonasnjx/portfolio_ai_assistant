@@ -4,14 +4,14 @@ require('dotenv').config({ path: require('path').join(__dirname, '../.env') });
 
 const fs   = require('fs');
 const path = require('path');
-const { runAgent } = require('../lib/agent');
+const { runAgent, ENABLE_CRITIQUE } = require('../lib/agent');
 const { judgeAnswer, JUDGE_MODEL } = require('./judge');
 
 const golden = require('./golden.json');
 
 async function main() {
     const runId   = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
-    const config  = process.env.ENABLE_CRITIQUE === 'true' ? 'with-critique' : 'no-critique';
+    const config  = ENABLE_CRITIQUE ? 'with-critique' : 'no-critique';
     const results = [];
 
     console.log(`\nEval run: ${runId} (${config})\n`);
@@ -83,7 +83,7 @@ async function main() {
         config,
         genModel:   'llama-3.3-70b-versatile',
         judgeModel: JUDGE_MODEL,
-        critique:   process.env.ENABLE_CRITIQUE === 'true',
+        critique:   ENABLE_CRITIQUE,
         aggregate,
         perQuestion: results,
     };
