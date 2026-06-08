@@ -55,13 +55,16 @@ async function main() {
     }
 
     const index = new Index({ url, token });
+    // RAG chunks live in the "knowledge" namespace, isolated from the
+    // semantic cache which uses the "cache" namespace of the same index.
+    const knowledgeNs = index.namespace('knowledge');
     const chunks = chunkKnowledge(KNOWLEDGE);
     const knowledgeHash = createHash('sha256').update(KNOWLEDGE).digest('hex').slice(0, 16);
 
     console.log(`Chunked knowledge into ${chunks.length} chunks.\n`);
 
-    // Reset the index so removed/edited chunks do not linger.
-    await index.reset();
+    // Reset the knowledge namespace so removed/edited chunks do not linger.
+    await knowledgeNs.reset();
 
     const vectors = chunks.map(text => ({
         id: chunkId(text),
@@ -76,9 +79,15 @@ async function main() {
         metadata: { hash: knowledgeHash },
     });
 
-    await index.upsert(vectors);
+    await knowledgeNs.upsert(vectors);
 
-    console.log(`Upserted ${vectors.length} vectors (including version marker).`);
+    // Knowledge changed, so previously cached answers may be stale. Clear them.
+    try {
+        await index.namespace('cache').reset();
+        console.log('Cleared stale semantic cache.');
+    } catch (e) { /* cache namespace may not exist yet */ }
+
+    console.log(`Upserted ${vectors.length} vectors to "knowledge" namespace (including version marker).`);
     console.log(`Knowledge hash: ${knowledgeHash}`);
     chunks.forEach((c, i) => console.log(`  [${i + 1}] ${c.slice(0, 60).replace(/\n/g, ' ')}...`));
 }

@@ -2,6 +2,7 @@ const { Redis } = require('@upstash/redis');
 const { Ratelimit } = require('@upstash/ratelimit');
 const { createHash } = require('crypto');
 const { runAgent } = require('../lib/agent');
+const { getCached, setCached } = require('../lib/semantic-cache');
 
 const redis = new Redis({
     url:   process.env.UPSTASH_REDIS_REST_URL,
@@ -81,11 +82,19 @@ module.exports = async function handler(req, res) {
         if (cached) return res.status(200).json({ answer: cached, cache: 'HIT' });
     } catch (e) { /* continue without cache */ }
 
+    // Semantic cache: reuse an answer from a question with the same meaning.
+    const semantic = await getCached(question.trim());
+    if (semantic) {
+        try { await redis.set(cacheKey, semantic, { ex: 86400 }); } catch (e) {}
+        return res.status(200).json({ answer: semantic, cache: 'SEMANTIC' });
+    }
+
     try {
         const answer = (await runAgent(question.trim()))
             || 'Sorry, I could not generate a response.';
 
         try { await redis.set(cacheKey, answer, { ex: 86400 }); } catch (e) {}
+        try { await setCached(question.trim(), answer); } catch (e) {}
 
         return res.status(200).json({ answer, cache: 'MISS' });
     } catch (err) {
