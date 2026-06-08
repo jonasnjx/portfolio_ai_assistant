@@ -44,7 +44,7 @@ function cannedReply(question) {
     const q = question.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ').trim();
     if (GREETINGS.has(q)) return "Hi! Ask me anything about Jonas's background, experience, or projects.";
     if (THANKS.has(q))    return "You're welcome! Anything else you'd like to know about Jonas?";
-    if (BYES.has(q))      return "Thanks for stopping by! Feel free to reach out to Jonas on LinkedIn or by email.";
+    if (BYES.has(q))      return "Thanks for stopping by!";
     return null;
 }
 
