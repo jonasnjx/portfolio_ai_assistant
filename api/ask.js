@@ -3,6 +3,7 @@ const { Ratelimit } = require('@upstash/ratelimit');
 const { createHash } = require('crypto');
 const { runAgent } = require('../lib/agent');
 const { getCached, setCached } = require('../lib/semantic-cache');
+const { getTracer } = require('../lib/tracing');
 
 const redis = new Redis({
     url:   process.env.UPSTASH_REDIS_REST_URL,
@@ -89,8 +90,13 @@ module.exports = async function handler(req, res) {
         return res.status(200).json({ answer: semantic, cache: 'SEMANTIC' });
     }
 
+    // Trace this question's LLM calls (per-node tokens/latency) in Langfuse.
+    // No-op if Langfuse keys are not set.
+    const tracer = await getTracer();
+    const agentConfig = tracer ? { callbacks: [tracer] } : {};
+
     try {
-        const generated = await runAgent(question.trim());
+        const generated = await runAgent(question.trim(), agentConfig);
 
         // Only cache real answers, never the fallback, so a transient empty
         // response does not get served from cache for the next 24h / 7d.
@@ -99,9 +105,13 @@ module.exports = async function handler(req, res) {
             try { await setCached(question.trim(), generated); } catch (e) {}
         }
 
+        // Flush traces before the serverless function freezes, or they are lost.
+        if (tracer) { try { await tracer.flushAsync(); } catch (e) {} }
+
         const answer = generated || 'Sorry, I could not generate a response.';
         return res.status(200).json({ answer, cache: 'MISS' });
     } catch (err) {
+        if (tracer) { try { await tracer.flushAsync(); } catch (e) {} }
         console.error('Agent error:', err?.message || err);
         return res.status(500).json({ error: 'The assistant is temporarily unavailable. Please try again shortly.' });
     }
