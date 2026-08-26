@@ -9,6 +9,26 @@ const { judgeAnswer, JUDGE_MODEL } = require('./judge');
 
 const golden = require('./golden.json');
 
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+// The free tier caps gpt-oss-120b at 8,000 tokens/min. On a 429, Groq tells us
+// how long to wait ("try again in Xs"); honor it and retry the call.
+async function withRateLimitRetry(fn, label, maxAttempts = 6) {
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+        try {
+            return await fn();
+        } catch (err) {
+            const msg = err?.message || String(err);
+            const rateLimited = err?.status === 429 || /rate_limit|429/.test(msg);
+            if (!rateLimited || attempt === maxAttempts) throw err;
+            const m = msg.match(/try again in ([\d.]+)s/);
+            const waitMs = (m ? Math.ceil(parseFloat(m[1]) * 1000) : attempt * 4000) + 750;
+            console.log(`  rate limited on ${label}, waiting ${waitMs}ms (attempt ${attempt}/${maxAttempts})`);
+            await sleep(waitMs);
+        }
+    }
+}
+
 async function main() {
     const runId   = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
     const config  = ENABLE_CRITIQUE ? 'with-critique' : 'no-critique';
@@ -33,10 +53,15 @@ async function main() {
 
         console.log(`[${item.id}] ${item.question}`);
 
+        // Free tier caps gpt-oss-120b at 8,000 tokens/min, and one question's
+        // retrieve->generate->check->revise loop burns ~6-7k. Start each question
+        // with a fresh minute window so it completes without thrashing on retries.
+        await sleep(48000);
+
         let answer, scores;
         try {
-            answer = await runAgent(item.question, cbConfig);
-            scores = await judgeAnswer(item.question, item.reference, answer);
+            answer = await withRateLimitRetry(() => runAgent(item.question, cbConfig), 'agent');
+            scores = await withRateLimitRetry(() => judgeAnswer(item.question, item.reference, answer), 'judge');
         } catch (err) {
             console.error(`  ERROR: ${err.message}`);
             results.push({ id: item.id, category: item.category, question: item.question, error: err.message });
