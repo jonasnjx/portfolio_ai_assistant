@@ -36,7 +36,7 @@ AI assistant backend for my portfolio. Powers the Baymax chatbot in the 3D portf
 ## Stack
 
 - **LangGraph** (`@langchain/langgraph`): orchestrates the multi-step answer pipeline with a conditional self-critique loop
-- **Groq API**: LLM inference (free tier). `llama-3.3-70b-versatile` generates/critiques; `llama-3.1-8b-instant` is the eval judge
+- **Groq API**: LLM inference (free tier). `openai/gpt-oss-120b` generates/critiques; `openai/gpt-oss-20b` is the eval judge. (Switched from `llama-3.3-70b-versatile` and `llama-3.1-8b-instant`, which Groq decommissioned on 2026-08-16.)
 - **Upstash Redis**: exact-match response cache (24h TTL) + per-IP rate limiting
 - **Upstash Vector**: semantic cache and (future) RAG retrieval. Dense index, embedding model `bge-large-en-v1.5`, two namespaces (`cache`, `knowledge`)
 - **Vercel serverless functions**: hosting
@@ -81,7 +81,7 @@ lib/
   semantic-cache.js # Semantic (meaning-based) cache over Upstash Vector
 eval/
   golden.json       # Golden dataset: questions + reference answers (12)
-  judge.js          # LLM-as-judge (llama-3.1-8b-instant), scores 1-5 on accuracy/relevance/conciseness
+  judge.js          # LLM-as-judge (openai/gpt-oss-20b), scores 1-5 on accuracy/relevance/conciseness
   run.js            # Runs the agent over the golden set, scores it, writes a timestamped result
   compare.js        # Diffs the two latest runs, flags regressions
   build-index.js    # Builds the Upstash Vector "knowledge" namespace; clears the "cache" namespace

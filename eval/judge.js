@@ -5,7 +5,7 @@ require('dotenv').config({ path: require('path').join(__dirname, '../.env') });
 const { ChatGroq } = require('@langchain/groq');
 const { HumanMessage } = require('@langchain/core/messages');
 
-const JUDGE_MODEL = 'llama-3.1-8b-instant';
+const JUDGE_MODEL = 'openai/gpt-oss-20b';
 
 const JUDGE_PROMPT = (question, reference, answer) => `You are an impartial evaluator of an AI assistant that answers questions about Jonas Ng's professional background.
 

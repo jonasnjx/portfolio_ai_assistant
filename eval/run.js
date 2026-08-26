@@ -81,7 +81,7 @@ async function main() {
     const output = {
         runId,
         config,
-        genModel:   'llama-3.3-70b-versatile',
+        genModel:   'openai/gpt-oss-120b',
         judgeModel: JUDGE_MODEL,
         critique:   ENABLE_CRITIQUE,
         aggregate,
