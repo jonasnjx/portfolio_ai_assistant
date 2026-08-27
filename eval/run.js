@@ -61,7 +61,7 @@ async function main() {
         let answer, scores;
         try {
             answer = await withRateLimitRetry(() => runAgent(item.question, cbConfig), 'agent');
-            scores = await withRateLimitRetry(() => judgeAnswer(item.question, item.reference, answer), 'judge');
+            scores = await withRateLimitRetry(() => judgeAnswer(item.question, item.reference, answer, item.category), 'judge');
         } catch (err) {
             console.error(`  ERROR: ${err.message}`);
             results.push({ id: item.id, category: item.category, question: item.question, error: err.message });

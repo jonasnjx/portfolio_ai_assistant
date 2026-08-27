@@ -1,8 +1,8 @@
 {
   "runs": [
     {
-      "runId": "2026-08-26T16-37-32",
-      "overall": 4.95,
+      "runId": "2026-08-27T15-38-00",
+      "overall": 4.81,
       "genModel": "openai/gpt-oss-120b",
       "judgeModel": "openai/gpt-oss-20b",
       "critique": true

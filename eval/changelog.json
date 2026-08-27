@@ -5,6 +5,7 @@
     "2026-06-07T16-44-06": "Enabled self-critique loop (check + revise)",
     "2026-06-08T14-49-44": "Expanded golden set to 12 (added semantic-phrasing questions), keyword retrieval",
     "2026-06-08T14-57-43": "Tested semantic retrieval (Upstash Vector), scored lower: broad chunks dominated, key facts dropped",
-    "2026-06-08T15-11-58": "Switched to full-context retrieval (KB fits in context), best score"
+    "2026-06-08T15-11-58": "Switched to full-context retrieval (KB fits in context), best score",
+    "2026-08-27T15-38-00": "Migrated to openai/gpt-oss-120b (Groq decommissioned the Llama models), lowered generation temperature for reliable out-of-scope refusals, judge now grounded on the full KB and scope-aware"
   }
 }
